@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Define the ButtonBar style -->
+    <style name="Widget.Theme.PinjamSejuta.ButtonBar" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@color/black_overlay
+        </item> <!-- Example background color -->
+        <item name="android:textColor">@android:color/white</item> <!-- Example text color -->
+    </style>
+
+    <!-- Gaya untuk ActionBar -->
+    <style name="Widget.Theme.PinjamSejuta.ActionBar.Fullscreen" parent="Widget.MaterialComponents.ActionBar.Primary">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <!-- Gaya untuk Button Bar -->
+    <style name="Widget.Theme.PinjamSejuta.ButtonBar.Fullscreen">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+    <!-- Tema Utama Aplikasi -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+</resources>
