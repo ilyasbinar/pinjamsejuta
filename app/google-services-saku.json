@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "662217307758",
+    "project_id": "saku-bca",
+    "storage_bucket": "saku-bca.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662217307758:android:24abfcefdb3c879cd0d87f",
+        "android_client_info": {
+          "package_name": "com.example.pinjamsejutaaja"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVMjsDjNDB4LDHiA3DiIiT0uSupcOPE6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
