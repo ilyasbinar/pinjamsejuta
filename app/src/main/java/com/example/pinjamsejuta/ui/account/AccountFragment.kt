@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -28,14 +27,13 @@ import com.google.android.gms.tasks.OnSuccessListener
 class AccountFragment : Fragment() {
 
     private lateinit var viewModel: AccountViewModel
-
     private var _binding: FragmentAccountBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
-    // Added a variable for the coordinates TextView
+    // View components
     private lateinit var coordinatesTextView: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,9 +44,17 @@ class AccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAccountBinding.bind(view)
 
-        //PROFILE
+        initializeViewModel()
+        setupUI()
+        setupLocationService()
+    }
+
+    private fun initializeViewModel() {
+        // Initialize and observe the ViewModel for user profile data
         viewModel = ViewModelProvider(this, AccountViewModelFactory(requireContext()))[AccountViewModel::class.java]
         viewModel.loadUserProfile()
+
+        // Observe user profile and error messages
         viewModel.userProfile.observe(viewLifecycleOwner) { profile ->
             binding.tvUserName.text = profile.name
             binding.tvEmail.text = profile.email
@@ -56,128 +62,76 @@ class AccountFragment : Fragment() {
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
         }
-        //END PROFILE
+    }
 
-        //LOGOUT
-        binding.buttonLogout.setOnClickListener {
-            performLogout()
-        }
-        //END LOGOUT
-
-        //EDIT2
-        binding.button2Edit.setOnClickListener {
-
-            // Pindah ke halaman login atau main activity
-            val intent = Intent(requireContext(), UpdateCustomerActivity::class.java)
-            startActivity(intent)
-        }
-        //END of edit2
-
+    private fun setupUI() {
+        // Setup logout and edit buttons
+        binding.buttonLogout.setOnClickListener { performLogout() }
+        binding.button2Edit.setOnClickListener { navigateToUpdateCustomer() }
     }
 
     private fun performLogout() {
+        // Clear login data and navigate to the main activity
         SharedPrefsUtils.clearLoginData(requireContext())
         val intent = Intent(requireContext(), MainActivity::class.java)
         startActivity(intent)
         requireActivity().finish()
     }
 
-    //tidak dipakai.
-    fun onCreateView2(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
+    private fun navigateToUpdateCustomer() {
+        // Navigate to UpdateCustomerActivity
+        val intent = Intent(requireContext(), UpdateCustomerActivity::class.java)
+        startActivity(intent)
+    }
 
-        _binding = FragmentAccountBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        val textView: TextView = binding.textAccount
-        accountViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
-        // Initialize coordinates TextView
-        coordinatesTextView = binding.root.findViewById(R.id.text_coordinates)
-
-        // Temukan tombol logout
-        val logoutButton: Button = binding.root.findViewById(R.id.buttonLogout)
-        // Menangani klik tombol logout
-        logoutButton.setOnClickListener {
-
-        }
-
-
-        // Temukan tombol edit
-        val editButton: Button = binding.root.findViewById(R.id.buttonEdit)
-        // Menangani klik tombol logout
-        editButton.setOnClickListener {
-
-            // Pindah ke halaman login atau main activity
-            val intent = Intent(requireContext(), UpdateCustomerActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Temukan tombol edit
-        val edit2Button: Button = binding.root.findViewById(R.id.button2Edit)
-        // Menangani klik tombol logout
-        edit2Button.setOnClickListener {
-
-            // Pindah ke halaman login atau main activity
-            val intent = Intent(requireContext(), UpdateCustomerActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Inisialisasi FusedLocationProviderClient
+    private fun setupLocationService() {
+        // Initialize FusedLocationProviderClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         // Register the permission launcher
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                // Izin diberikan, mendapatkan lokasi
                 getCurrentLocation()
             } else {
-                // Izin ditolak, beri penanganan yang sesuai
+                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Memeriksa izin lokasi dan mendapatkan lokasi jika diizinkan
+        // Check and request location permission
         checkAndRequestLocationPermission()
-
-        return root
     }
 
     private fun checkAndRequestLocationPermission() {
-        // Memeriksa apakah izin sudah diberikan
+        // Check if the location permissions are granted
         if (ContextCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            // Izin sudah diberikan, mendapatkan lokasi
             getCurrentLocation()
         } else {
-            // Jika izin belum diberikan, meminta izin
+            // Request location permission if not granted
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun getCurrentLocation() {
+        // Get the current location using FusedLocationProviderClient
         try {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener(requireActivity(), object : OnSuccessListener<Location> {
-                    override fun onSuccess(location: Location?) {
-                        if (location != null) {
-                            // Lokasi ditemukan, lakukan sesuatu dengan data lokasi
-                            val latitude = location.latitude
-                            val longitude = location.longitude
-                            // Tampilkan atau simpan lokasi sesuai kebutuhan
-                            coordinatesTextView.text = "Latitude: $latitude, Longitude: $longitude"
-                        } else {
-                            // Lokasi tidak ditemukan
-                            coordinatesTextView.text = "Lokasi tidak ditemukan"
-                        }
+            fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity(), object : OnSuccessListener<Location> {
+                override fun onSuccess(location: Location?) {
+                    if (location != null) {
+                        val latitude = location.latitude
+                        val longitude = location.longitude
+                        coordinatesTextView.text = "Latitude: $latitude, Longitude: $longitude"
+                    } else {
+                        coordinatesTextView.text = "Location not found"
                     }
-                })
+                }
+            })
         } catch (e: SecurityException) {
-            // Tangani SecurityException jika izin belum diberikan
+            // Handle exception if permissions are not granted
             e.printStackTrace()
         }
     }
