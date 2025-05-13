@@ -33,9 +33,6 @@ class AccountFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
-    // View components
-    private lateinit var coordinatesTextView: TextView
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_account, container, false)
     }
@@ -124,9 +121,9 @@ class AccountFragment : Fragment() {
                     if (location != null) {
                         val latitude = location.latitude
                         val longitude = location.longitude
-                        coordinatesTextView.text = "Latitude: $latitude, Longitude: $longitude"
+                        binding.tvCoordinate.text = "Latitude: $latitude, Longitude: $longitude"
                     } else {
-                        coordinatesTextView.text = "Location not found"
+                        binding.tvCoordinate.text = "Location not found"
                     }
                 }
             })
