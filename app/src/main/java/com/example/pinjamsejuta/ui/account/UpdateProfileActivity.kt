@@ -7,15 +7,19 @@ import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.example.pinjamsejuta.R
 import com.example.pinjamsejuta.data.remote.api.FileUploadService
 import com.example.pinjamsejuta.data.remote.network.SakuBCAIlyasClient
 import com.example.pinjamsejuta.data.repository.UploadRepository
-import com.example.pinjamsejuta.databinding.ActivityUpdateCustomerBinding
+import com.example.pinjamsejuta.databinding.ActivityUpdateProfileBinding
 import com.example.pinjamsejuta.model.file.FileUploadResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -25,11 +29,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
-class UpdateCustomerActivity : AppCompatActivity() {
+class UpdateProfileActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityUpdateCustomerBinding
+    private lateinit var binding: ActivityUpdateProfileBinding
 
     private var selectedFileUri: Uri? = null
     private var cameraImageUri: Uri? = null
@@ -52,7 +57,7 @@ class UpdateCustomerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUpdateCustomerBinding.inflate(layoutInflater)
+        binding = ActivityUpdateProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupListeners()
@@ -103,7 +108,11 @@ class UpdateCustomerActivity : AppCompatActivity() {
             "${packageName}.fileprovider",
             imageFile
         )
-        cameraLauncher.launch(cameraImageUri)
+        cameraImageUri?.let {
+            cameraLauncher.launch(it)
+        } ?: run {
+            Toast.makeText(this, "Failed to create image file", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun handleFileSelection(uri: Uri?) {
@@ -133,15 +142,15 @@ class UpdateCustomerActivity : AppCompatActivity() {
         repository.uploadFile2(part1, part2, object : Callback<FileUploadResponse> {
             override fun onResponse(call: Call<FileUploadResponse>, response: Response<FileUploadResponse>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@UpdateCustomerActivity, response.body()?.message ?: "Success", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@UpdateProfileActivity, response.body()?.message ?: "Success", Toast.LENGTH_LONG).show()
                 } else {
-                    Toast.makeText(this@UpdateCustomerActivity, "Upload failed: ${response.code()}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@UpdateProfileActivity, "Upload failed: ${response.code()}", Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
                 Log.e("Upload", "Error: ${t.message}")
-                Toast.makeText(this@UpdateCustomerActivity, "Upload error", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@UpdateProfileActivity, "Upload error", Toast.LENGTH_LONG).show()
             }
         })
     }
