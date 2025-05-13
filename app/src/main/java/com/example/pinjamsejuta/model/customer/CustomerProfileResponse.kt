@@ -1,5 +1,7 @@
 package com.example.pinjamsejuta.model.customer
 
+import com.example.pinjamsejuta.model.loan.Plafond
+
 data class CustomerProfileResponse(
     val status: Int,
     val message: String,
@@ -27,13 +29,4 @@ data class CustomerDetails(
     val noRek: String?,
     val statusRumah: String?,
     val plafond: Plafond?
-)
-
-data class Plafond(
-    val id: String,
-    val name: String,
-    val maxAmount: Double,
-    val interestRate: Double,
-    val minTenor: Int,
-    val maxTenor: Int
 )

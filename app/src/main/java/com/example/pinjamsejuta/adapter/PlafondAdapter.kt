@@ -7,11 +7,11 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pinjamsejuta.R
-import com.example.pinjamsejuta.model.loan.Plafond
 import androidx.core.graphics.toColorInt
+import com.example.pinjamsejuta.model.loan.Plafond
 
 class PlafondAdapter(
-    private val items: List<Plafond>,
+    private var items: List<Plafond>,
     private val onAjukanClicked: (Plafond) -> Unit
 ) : RecyclerView.Adapter<PlafondAdapter.PlafondViewHolder>() {
 
@@ -47,4 +47,9 @@ class PlafondAdapter(
     }
 
     override fun getItemCount() = items.size
+
+    fun updateData(newItems: List<Plafond>) {
+        items = newItems
+        notifyDataSetChanged() // Bisa diganti DiffUtil untuk performa lebih baik
+    }
 }

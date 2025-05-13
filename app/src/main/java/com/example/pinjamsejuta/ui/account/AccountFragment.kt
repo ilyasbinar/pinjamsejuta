@@ -80,7 +80,7 @@ class AccountFragment : Fragment() {
 
     private fun navigateToUpdateCustomer() {
         // Navigate to UpdateCustomerActivity
-        val intent = Intent(requireContext(), UpdateCustomerActivity::class.java)
+        val intent = Intent(requireContext(), UpdateProfileActivity::class.java)
         startActivity(intent)
     }
 
