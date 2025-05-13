@@ -1,81 +1,85 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp"
-    tools:context=".ui.loan.LoanSimulationActivity">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Toolbar with back button -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
-    <!-- Judul -->
-    <TextView
-        android:id="@+id/tvTitle"
-        android:text="Simulasi Pinjaman"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:padding="24dp"
+        tools:context=".ui.loan.LoanSimulationActivity">
 
-    <!-- Slider untuk jumlah pinjaman -->
-    <TextView
-        android:id="@+id/tvLoanAmount"
-        android:text="Jumlah Pinjaman: Rp0"
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <!-- Toolbar with back button -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
-    <SeekBar
-        android:id="@+id/seekBarLoan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="100" />
+        <!-- Judul -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:text="Simulasi Pinjaman"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-    <!-- Slider untuk tenor -->
-    <TextView
-        android:id="@+id/tvTenor"
-        android:text="Tenor: 1 bulan"
-        android:layout_marginTop="24dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <!-- Slider untuk jumlah pinjaman -->
+        <TextView
+            android:id="@+id/tvLoanAmount"
+            android:text="Jumlah Pinjaman: Rp0"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <SeekBar
-        android:id="@+id/seekBarTenor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="23" /> <!-- 1–24 bulan -->
+        <SeekBar
+            android:id="@+id/seekBarLoan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
 
-    <!-- Tombol Hitung -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCalculate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hitung"
-        android:layout_marginTop="24dp" />
+        <!-- Slider untuk tenor -->
+        <TextView
+            android:id="@+id/tvTenor"
+            android:text="Tenor: 1 bulan"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <!-- Hasil simulasi -->
-    <TextView
-        android:id="@+id/tvResult"
-        android:text="Hasil simulasi akan muncul di sini"
-        android:textSize="16sp"
-        android:layout_marginTop="24dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <SeekBar
+            android:id="@+id/seekBarTenor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="23" /> <!-- 1–24 bulan -->
 
-    <!-- Tombol Ajukan -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAjukan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tertarik? Ajukan Sekarang"
-        android:visibility="gone"
-        android:layout_marginTop="24dp" />
+        <!-- Tombol Hitung -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCalculate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hitung"
+            android:layout_marginTop="24dp" />
 
-</LinearLayout>
+        <!-- Hasil simulasi -->
+        <TextView
+            android:id="@+id/tvResult"
+            android:text="Hasil simulasi akan muncul di sini"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Tombol Ajukan -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAjukan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tertarik? Ajukan Sekarang"
+            android:visibility="gone"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+</layout>

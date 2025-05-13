@@ -5,19 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.pinjamsejuta.R
 import com.example.pinjamsejuta.adapter.PlafondAdapter
 import com.example.pinjamsejuta.databinding.FragmentHomeBinding
 import com.example.pinjamsejuta.model.loan.PlafondResponse
-import com.example.pinjamsejuta.network.LoanApiService
-import com.example.pinjamsejuta.network.SakuBCAClient
+import com.example.pinjamsejuta.data.remote.api.LoanApiService
+import com.example.pinjamsejuta.data.remote.network.SakuBCAClient
 import com.example.pinjamsejuta.ui.loan.LoanSimulationActivity
-import com.example.pinjamsejuta.utils.ProgressBarUtil
+import com.example.pinjamsejuta.utils.ProgressUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,7 +26,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PlafondAdapter
-    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -38,16 +37,16 @@ class HomeFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerPlafond)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        progressBar = view.findViewById(R.id.progressBar)  // Menemukan ProgressBar dalam layout
 
         // Menampilkan loading sebelum data dimuat
-        ProgressBarUtil.showLoading(progressBar)
+        val lottieLoading = view.findViewById<LottieAnimationView>(R.id.lottieLoading)
+        ProgressUtil.showLoading(lottieLoading, recyclerView)
 
         val apiService = SakuBCAClient.getInstance(requireContext()).create(LoanApiService::class.java)
         apiService.getPlafonds().enqueue(object : Callback<PlafondResponse> {
             override fun onResponse(call: Call<PlafondResponse>, response: Response<PlafondResponse>) {
                 // Menyembunyikan ProgressBar setelah data diterima
-                ProgressBarUtil.hideLoading(progressBar)
+                ProgressUtil.hideLoading(lottieLoading, recyclerView)
 
                 if (response.isSuccessful && response.body() != null) {
                     val plafonds = response.body()!!.data
@@ -64,7 +63,7 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<PlafondResponse>, t: Throwable) {
                 // Menyembunyikan ProgressBar dan memberi pesan error
-                ProgressBarUtil.hideLoading(progressBar)
+                ProgressUtil.hideLoading(lottieLoading, recyclerView)
                 Toast.makeText(context, "Gagal memuat data", Toast.LENGTH_SHORT).show()
             }
         })

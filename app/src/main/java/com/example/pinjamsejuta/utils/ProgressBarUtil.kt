@@ -1,23 +1,25 @@
 package com.example.pinjamsejuta.utils
 
 import android.view.View
-import android.widget.ProgressBar
+import com.airbnb.lottie.LottieAnimationView
 
-object ProgressBarUtil {
+object ProgressUtil {
 
     /**
-     * Show the progress bar and hide the provided views.
+     * Show the Lottie animation and hide the provided views.
      */
-    fun showLoading(progressBar: ProgressBar, vararg viewsToHide: View) {
-        progressBar.visibility = View.VISIBLE
+    fun showLoading(lottieView: LottieAnimationView, vararg viewsToHide: View) {
+        lottieView.visibility = View.VISIBLE
+        lottieView.playAnimation()
         viewsToHide.forEach { it.visibility = View.GONE }
     }
 
     /**
-     * Hide the progress bar and show the provided views.
+     * Hide the Lottie animation and show the provided views.
      */
-    fun hideLoading(progressBar: ProgressBar, vararg viewsToShow: View) {
-        progressBar.visibility = View.GONE
+    fun hideLoading(lottieView: LottieAnimationView, vararg viewsToShow: View) {
+        lottieView.cancelAnimation()
+        lottieView.visibility = View.GONE
         viewsToShow.forEach { it.visibility = View.VISIBLE }
     }
 }

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
@@ -18,8 +19,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.pinjamsejuta.MainActivity
 import com.example.pinjamsejuta.R
-import com.example.pinjamsejuta.UpdateCustomer2Activity
-import com.example.pinjamsejuta.UpdateCustomerActivity
 import com.example.pinjamsejuta.databinding.FragmentAccountBinding
 import com.example.pinjamsejuta.utils.SharedPrefsUtils
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -27,6 +26,8 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnSuccessListener
 
 class AccountFragment : Fragment() {
+
+    private lateinit var viewModel: AccountViewModel
 
     private var _binding: FragmentAccountBinding? = null
     private val binding get() = _binding!!
@@ -37,11 +38,53 @@ class AccountFragment : Fragment() {
     // Added a variable for the coordinates TextView
     private lateinit var coordinatesTextView: TextView
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        val accountViewModel =
-            ViewModelProvider(this).get(AccountViewModel::class.java)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_account, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentAccountBinding.bind(view)
+
+        //PROFILE
+        viewModel = ViewModelProvider(this, AccountViewModelFactory(requireContext()))[AccountViewModel::class.java]
+        viewModel.loadUserProfile()
+        viewModel.userProfile.observe(viewLifecycleOwner) { profile ->
+            binding.tvUserName.text = profile.name
+            binding.tvEmail.text = profile.email
+        }
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        }
+        //END PROFILE
+
+        //LOGOUT
+        binding.buttonLogout.setOnClickListener {
+            performLogout()
+        }
+        //END LOGOUT
+
+        //EDIT2
+        binding.button2Edit.setOnClickListener {
+
+            // Pindah ke halaman login atau main activity
+            val intent = Intent(requireContext(), UpdateCustomerActivity::class.java)
+            startActivity(intent)
+        }
+        //END of edit2
+
+    }
+
+    private fun performLogout() {
+        SharedPrefsUtils.clearLoginData(requireContext())
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
+    }
+
+    //tidak dipakai.
+    fun onCreateView2(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
 
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -57,15 +100,7 @@ class AccountFragment : Fragment() {
         val logoutButton: Button = binding.root.findViewById(R.id.buttonLogout)
         // Menangani klik tombol logout
         logoutButton.setOnClickListener {
-            // Menghapus status login dari SharedPreferences
-            SharedPrefsUtils.clearLoginData(requireContext())
 
-            // Pindah ke halaman login atau main activity
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
-            startActivity(intent)
-            activity?.finish() // Menutup Activity saat logout
         }
 
 
@@ -85,7 +120,7 @@ class AccountFragment : Fragment() {
         edit2Button.setOnClickListener {
 
             // Pindah ke halaman login atau main activity
-            val intent = Intent(requireContext(), UpdateCustomer2Activity::class.java)
+            val intent = Intent(requireContext(), UpdateCustomerActivity::class.java)
             startActivity(intent)
         }
 

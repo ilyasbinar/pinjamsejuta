@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.pinjamsejuta.databinding.ActivityRegisterBinding
 import com.example.pinjamsejuta.model.auth.RegisterRequest
-import com.example.pinjamsejuta.network.AuthApiService
-import com.example.pinjamsejuta.network.SakuBCAClient
+import com.example.pinjamsejuta.data.remote.api.AuthApiService
+import com.example.pinjamsejuta.data.remote.network.SakuBCAClient
 import com.example.pinjamsejuta.ui.login.LoginActivity
 
 class RegisterActivity : AppCompatActivity() {

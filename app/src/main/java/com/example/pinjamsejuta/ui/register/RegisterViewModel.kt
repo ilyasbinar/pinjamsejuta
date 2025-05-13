@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
 import com.example.pinjamsejuta.model.auth.RegisterRequest
 import com.example.pinjamsejuta.model.auth.RegisterResponse
-import com.example.pinjamsejuta.repository.AuthRepository
+import com.example.pinjamsejuta.data.repository.AuthRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

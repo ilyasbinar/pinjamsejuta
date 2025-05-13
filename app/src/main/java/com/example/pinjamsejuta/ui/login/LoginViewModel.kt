@@ -8,13 +8,12 @@ import androidx.lifecycle.ViewModel
 import com.example.pinjamsejuta.model.auth.LoginRequest
 import com.example.pinjamsejuta.model.auth.LoginResponse
 import com.example.pinjamsejuta.model.auth.LoginResult
-import com.example.pinjamsejuta.repository.AuthRepository
+import com.example.pinjamsejuta.data.repository.AuthRepository
 import com.example.pinjamsejuta.utils.SharedPrefsUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.lifecycle.viewModelScope
-import com.example.pinjamsejuta.network.AuthApiService
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -33,7 +32,7 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful && response.body() != null) {
                     val loginResponse = response.body()
-                    val jwt = loginResponse?.data?.data?.jwt
+                    val jwt = loginResponse?.data?.jwt
                     if (jwt != null) {
                         SharedPrefsUtils.setLoginStatus(context, true)
                         SharedPrefsUtils.setToken(context, jwt.token)
@@ -74,7 +73,7 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
                     val body = response.body()
                     if (body != null) {
                         val message = body.message
-                        val jwt = body.data.data.jwt
+                        val jwt = body.data.jwt
                         _loginStatus.postValue(LoginResult.Success(message , jwt ))
                     } else {
                         _loginStatus.postValue(LoginResult.Error("Response Google kosong"))

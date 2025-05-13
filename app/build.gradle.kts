@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.services)
+    id("kotlin-kapt")
 }
 
 android {
@@ -35,7 +36,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
-        viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -66,5 +67,6 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:23.1.2")
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation("com.airbnb.android:lottie:6.1.0")
 
 }

@@ -4,12 +4,7 @@ data class LoginResponse(
     val timestamp: String,
     val status: Int,
     val message: String,
-    val data: LoginDataWrapper
-)
-
-data class LoginDataWrapper(
-    val data: LoginData,
-    val status: String
+    val data: LoginData
 )
 
 data class LoginData(

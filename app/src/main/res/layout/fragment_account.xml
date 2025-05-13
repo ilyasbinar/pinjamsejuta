@@ -1,47 +1,82 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/text_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Account Details"
-        android:textSize="18sp"
-        android:paddingBottom="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- Add a TextView to display the coordinates -->
-    <TextView
-        android:id="@+id/text_coordinates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Latitude: , Longitude: "
-        android:textSize="16sp"
-        android:paddingBottom="16dp"/>
+        <TextView
+            android:id="@+id/text_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Account Details"
+            android:textSize="18sp"
+            android:paddingBottom="16dp"/>
 
-    <!-- Logout button -->
-    <Button
-        android:id="@+id/buttonLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:textSize="16sp"/>
+        <!-- Display Name -->
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name: -"
+            android:textSize="16sp"
+            android:paddingBottom="8dp"/>
 
-    <!-- Logout button -->
-    <Button
-        android:id="@+id/buttonEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit"
-        android:textSize="16sp"/>
+        <!-- Display Email -->
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email: -"
+            android:textSize="16sp"
+            android:paddingBottom="8dp"/>
 
-    <!-- Logout button -->
-    <Button
-        android:id="@+id/button2Edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit 2"
-        android:textSize="16sp"/>
-</LinearLayout>
+        <!-- Display Gender -->
+        <TextView
+            android:id="@+id/tvGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gender: -"
+            android:textSize="16sp"
+            android:paddingBottom="8dp"/>
+
+        <!-- Display Plafond -->
+        <TextView
+            android:id="@+id/tvPlafond"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Plafond: -"
+            android:textSize="16sp"
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/text_coordinates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Latitude: , Longitude: "
+            android:textSize="16sp"
+            android:paddingBottom="16dp"/>
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/buttonEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/button2Edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit 2"
+            android:textSize="16sp"/>
+    </LinearLayout>
+</layout>

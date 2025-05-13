@@ -15,7 +15,6 @@ import com.example.pinjamsejuta.utils.SharedPrefsUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
-import android.Manifest
 import android.content.pm.PackageManager
 
 class MainActivity : AppCompatActivity() {
@@ -80,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         navView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_account -> {
+
                     if (isLogin) {
                         navController.navigate(R.id.navigation_account)
                     } else {

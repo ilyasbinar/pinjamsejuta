@@ -3,16 +3,14 @@ package com.example.pinjamsejuta.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.pinjamsejuta.MainActivity
-import com.example.pinjamsejuta.R
 import com.example.pinjamsejuta.databinding.ActivityLoginBinding
 import com.example.pinjamsejuta.model.auth.LoginResult
-import com.example.pinjamsejuta.network.AuthApiService
-import com.example.pinjamsejuta.network.SakuBCAClient
+import com.example.pinjamsejuta.data.remote.api.AuthApiService
+import com.example.pinjamsejuta.data.remote.network.SakuBCAClient
 import com.example.pinjamsejuta.ui.register.RegisterActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -29,8 +27,6 @@ class LoginActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Gunakan binding
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -46,7 +42,6 @@ class LoginActivity : ComponentActivity() {
             val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
-
         //END OF GOOGLE SIGN IN
 
         // Init ViewModel dengan Retrofit API
@@ -73,42 +68,44 @@ class LoginActivity : ComponentActivity() {
 
         // Event klik tombol login
         binding.buttonLogin.setOnClickListener {
-            val email = binding.editTextEmail.text.toString()
-            val password = binding.editTextPassword.text.toString()
-            var isValid = true
-
-            // Validasi email
-            if (email.isBlank()) {
-                binding.emailInputLayout.error = "Email tidak boleh kosong"
-                isValid = false
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                binding.emailInputLayout.error = "Format email tidak valid"
-                isValid = false
-            } else {
-                binding.emailInputLayout.error = null
-            }
-
-            // Validasi password
-            if (password.isBlank()) {
-                binding.passwordInputLayout.error = "Password tidak boleh kosong"
-                isValid = false
-            } else {
-                binding.passwordInputLayout.error = null
-            }
-
-            // Jika valid, lanjutkan login
-            if (isValid) {
-                loginViewModel.loginCustomer(email, password, this)
-            }
+            performValidation();
         }
 
-        // Inisialisasi tombol Register
-        val buttonRegister: Button = findViewById(R.id.buttonRegister)
-
-
-        buttonRegister.setOnClickListener {
+        //BUTTON REGISTER
+        binding.buttonRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+        }
+        //END BUTTON REGISTER
+    }
+
+    private fun performValidation() {
+        val email = binding.editTextEmail.text.toString()
+        val password = binding.editTextPassword.text.toString()
+        var isValid = true
+
+        // Validasi email
+        if (email.isBlank()) {
+            binding.emailInputLayout.error = "Email tidak boleh kosong"
+            isValid = false
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.emailInputLayout.error = "Format email tidak valid"
+            isValid = false
+        } else {
+            binding.emailInputLayout.error = null
+        }
+
+        // Validasi password
+        if (password.isBlank()) {
+            binding.passwordInputLayout.error = "Password tidak boleh kosong"
+            isValid = false
+        } else {
+            binding.passwordInputLayout.error = null
+        }
+
+        // Jika valid, lanjutkan login
+        if (isValid) {
+            loginViewModel.loginCustomer(email, password, this)
         }
     }
 
